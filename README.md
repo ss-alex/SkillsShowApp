@@ -22,4 +22,4 @@ App that shows my skills on a pre-interview stage to a company.
   You just need to clone the project, no 3rd party libraries were used.
   
 ## The UI given as guidline:
-<img src="SkillsShowApp/guideline.png" width="1000">
+<img src=https://github.com/ss-alex/SkillsShowApp/blob/main/guideline.png width="1000">
