@@ -19,11 +19,12 @@ class MissedCallVC: UIViewController {
     
     //UI Elements:
     let backView = UIView()
+    let callImageViewSub = UIImageView()
     let callImageView = UIImageView()
-    let callDurationTV = UITextView()
-    let nameTV = UILabel()
-    let callNumber = UILabel()
-    let businessNumberLabel = UILabel()
+    let callDurationLbl = UILabel()
+    let nameLbl = UILabel()
+    let callNumberLbl = UILabel()
+    let businessNumberLbl = UILabel()
     let businessTypeLabel = UILabel()
     let businessNumber = UILabel()
     let swiperView = UIView()
@@ -43,7 +44,7 @@ class MissedCallVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
+        view.backgroundColor = .white
         setupNavigation()
         setupLayout()
     }
@@ -51,7 +52,7 @@ class MissedCallVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.shouldRemoveShadow(true)
-        backViewHeightConstraint.constant = 100
+        backViewHeightConstraint.constant = 126
     }
     
     private func setupNavigation() {
@@ -63,8 +64,8 @@ class MissedCallVC: UIViewController {
     private func setupLayout() {
         setupBackView()
         setupCallImageView()
-        setupCallDurationTextView()
-        setupNameTV()
+        setupCallDurationLbl()
+        setupNameLbl()
         setupCallNumber()
         setupBusinessNumberLabel()
         setupBusinessType()
@@ -83,14 +84,22 @@ class MissedCallVC: UIViewController {
         NSLayoutConstraint.activate([
             backView.leftAnchor.constraint(equalTo: view.leftAnchor),
             backView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            backView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            backView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             backView.heightAnchor.constraint(equalToConstant: backViewHeightConstraint.constant)
         ])
         
-        backView.backgroundColor = .gray
-        
+        //Gesture recognizers:
         backView.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
         backView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
+        
+        backView.backgroundColor = .white
+        backView.roundCorners([.layerMaxXMaxYCorner, .layerMinXMaxYCorner], radius: 18)
+        
+        backView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.15).cgColor
+        backView.layer.shadowOffset = .zero
+        backView.layer.shadowOpacity = 0.8
+        backView.layer.shadowRadius = 16
+        
     }
     
     func setupCallImageView() {
@@ -104,69 +113,94 @@ class MissedCallVC: UIViewController {
             callImageView.heightAnchor.constraint(equalToConstant: 56)
         ])
         
-        callImageView.image = UIImage(systemName: "phone.fill.arrow.down.left")
-        callImageView.backgroundColor = .gray
+        callImageView.addSubview(callImageViewSub)
+        callImageViewSub.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            callImageViewSub.centerXAnchor.constraint(equalTo: callImageView.centerXAnchor),
+            callImageViewSub.centerYAnchor.constraint(equalTo: callImageView.centerYAnchor),
+            callImageViewSub.widthAnchor.constraint(equalToConstant: 40),
+            callImageViewSub.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        let icon = UIImage(systemName: "phone.fill.arrow.down.left")?
+            .withTintColor(UIColor.mightyOrange,
+                           renderingMode: .alwaysOriginal)
+        
+        callImageViewSub.image = icon
+        
+        callImageView.backgroundColor = .white
         callImageView.layer.cornerRadius = 56/2
+        callImageView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).cgColor
+        callImageView.layer.shadowOffset = .zero
+        callImageView.layer.shadowOpacity = 0.8
+        callImageView.layer.shadowRadius = 4
     }
     
-    func setupCallDurationTextView() {
-        backView.addSubview(callDurationTV)
-        callDurationTV.translatesAutoresizingMaskIntoConstraints = false
+    func setupCallDurationLbl() {
+        backView.addSubview(callDurationLbl)
+        callDurationLbl.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            callDurationTV.topAnchor.constraint(equalTo: callImageView.bottomAnchor, constant: 8),
-            callDurationTV.centerXAnchor.constraint(equalTo: callImageView.centerXAnchor),
-            callDurationTV.widthAnchor.constraint(equalToConstant: 44),
-            callDurationTV.heightAnchor.constraint(equalToConstant: 20)
+            callDurationLbl.topAnchor.constraint(equalTo: callImageView.bottomAnchor, constant: 8),
+            callDurationLbl.centerXAnchor.constraint(equalTo: callImageView.centerXAnchor),
+            callDurationLbl.widthAnchor.constraint(equalToConstant: 40),
+            callDurationLbl.heightAnchor.constraint(equalToConstant: 16)
         ])
         
-        callDurationTV.backgroundColor = .systemGray4
-        callDurationTV.text = duration.substring(from: 3)
+        callDurationLbl.text = duration.substring(from: 3)
+        callDurationLbl.font = UIFont.systemFont(ofSize: 13, weight: .light)
+        callDurationLbl.textAlignment = .center
+        callDurationLbl.tintColor = UIColor.sixty
+        
     }
     
-    func setupNameTV() {
-        backView.addSubview(nameTV)
-        nameTV.translatesAutoresizingMaskIntoConstraints = false
+    func setupNameLbl() {
+        backView.addSubview(nameLbl)
+        nameLbl.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            nameTV.leftAnchor.constraint(equalTo: callImageView.rightAnchor, constant: 16),
-            nameTV.topAnchor.constraint(equalTo: backView.topAnchor, constant: 29),
-            nameTV.heightAnchor.constraint(equalToConstant: 24),
-            nameTV.widthAnchor.constraint(equalToConstant: 160)
+            nameLbl.leftAnchor.constraint(equalTo: callImageView.rightAnchor, constant: 16),
+            nameLbl.topAnchor.constraint(equalTo: backView.topAnchor, constant: 29),
+            nameLbl.heightAnchor.constraint(equalToConstant: 24),
+            nameLbl.widthAnchor.constraint(equalToConstant: 160)
         ])
         
-        nameTV.backgroundColor = .systemGray4
-        nameTV.text = name
+        nameLbl.text = name
+        nameLbl.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        nameLbl.textAlignment = .left
+        nameLbl.tintColor = UIColor.thirtyThree
     }
     
     func setupCallNumber() {
-        backView.addSubview(callNumber)
-        callNumber.translatesAutoresizingMaskIntoConstraints = false
+        backView.addSubview(callNumberLbl)
+        callNumberLbl.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            callNumber.leftAnchor.constraint(equalTo: nameTV.leftAnchor),
-            callNumber.topAnchor.constraint(equalTo: nameTV.bottomAnchor, constant: 7),
-            callNumber.heightAnchor.constraint(equalToConstant: 20),
-            callNumber.widthAnchor.constraint(equalToConstant: 160)
+            callNumberLbl.leftAnchor.constraint(equalTo: nameLbl.leftAnchor),
+            callNumberLbl.topAnchor.constraint(equalTo: nameLbl.bottomAnchor, constant: 7),
+            callNumberLbl.heightAnchor.constraint(equalToConstant: 17),
+            callNumberLbl.widthAnchor.constraint(equalToConstant: 160)
         ])
         
-        callNumber.backgroundColor = .systemGray4
-        callNumber.text = number
+        callNumberLbl.text = number
+        callNumberLbl.font = UIFont.systemFont(ofSize: 15, weight: .thin)
+        callNumberLbl.tintColor = UIColor.sixty
     }
     
     func setupBusinessNumberLabel() {
-        backView.addSubview(businessNumberLabel)
-        businessNumberLabel.translatesAutoresizingMaskIntoConstraints = false
+        backView.addSubview(businessNumberLbl)
+        businessNumberLbl.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            businessNumberLabel.topAnchor.constraint(equalTo: callNumber.bottomAnchor, constant: 30),
-            businessNumberLabel.leftAnchor.constraint(equalTo: callNumber.leftAnchor),
-            businessNumberLabel.heightAnchor.constraint(equalToConstant: 20),
-            businessNumberLabel.widthAnchor.constraint(equalToConstant: 160)
+            businessNumberLbl.topAnchor.constraint(equalTo: callNumberLbl.bottomAnchor, constant: 30),
+            businessNumberLbl.leftAnchor.constraint(equalTo: callNumberLbl.leftAnchor),
+            businessNumberLbl.heightAnchor.constraint(equalToConstant: 16),
+            businessNumberLbl.widthAnchor.constraint(equalToConstant: 160)
         ])
         
-        //businessNumberLabel.backgroundColor = .systemGray4
-        businessNumberLabel.text = ""
+        businessNumberLbl.text = ""
+        businessNumberLbl.font = UIFont.systemFont(ofSize: 13, weight: .light)
+        businessNumberLbl.tintColor = UIColor.ao
     }
     
     func setupBusinessType() {
@@ -174,13 +208,15 @@ class MissedCallVC: UIViewController {
         businessTypeLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            businessTypeLabel.topAnchor.constraint(equalTo: businessNumberLabel.bottomAnchor, constant: 8),
-            businessTypeLabel.leftAnchor.constraint(equalTo: businessNumberLabel.leftAnchor),
-            businessTypeLabel.heightAnchor.constraint(equalToConstant: 24),
+            businessTypeLabel.topAnchor.constraint(equalTo: businessNumberLbl.bottomAnchor, constant: 8),
+            businessTypeLabel.leftAnchor.constraint(equalTo: businessNumberLbl.leftAnchor),
+            businessTypeLabel.heightAnchor.constraint(equalToConstant: 22),
             businessTypeLabel.widthAnchor.constraint(equalToConstant: 160)
         ])
         
         businessTypeLabel.text = ""
+        businessTypeLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        businessTypeLabel.tintColor = UIColor.thirtyThree
     }
     
     func setupBusinessNumber() {
@@ -190,11 +226,14 @@ class MissedCallVC: UIViewController {
         NSLayoutConstraint.activate([
             businessNumber.topAnchor.constraint(equalTo: businessTypeLabel.bottomAnchor, constant: 4),
             businessNumber.leftAnchor.constraint(equalTo: businessTypeLabel.leftAnchor),
-            businessNumber.heightAnchor.constraint(equalToConstant: 24),
+            businessNumber.heightAnchor.constraint(equalToConstant: 17),
             businessNumber.widthAnchor.constraint(equalToConstant: 160)
         ])
         
         businessNumber.text = ""
+        businessNumber.font = UIFont.systemFont(ofSize: 15, weight: .thin)
+        businessNumber.tintColor = UIColor.sixty
+        
     }
     
     func setupSwiperElement() {
@@ -203,7 +242,7 @@ class MissedCallVC: UIViewController {
         
         NSLayoutConstraint.activate([
             swiperView.centerXAnchor.constraint(equalTo: backView.centerXAnchor),
-            swiperView.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -3),
+            swiperView.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -11),
             swiperView.heightAnchor.constraint(equalToConstant: 4),
             swiperView.widthAnchor.constraint(equalToConstant: 16)
         ])
@@ -224,14 +263,14 @@ class MissedCallVC: UIViewController {
         switch sender.direction
         {
         case .up:
-            backViewHeightConstraint.constant = 100
-            businessNumberLabel.text = ""
+            backViewHeightConstraint.constant = 126
+            businessNumberLbl.text = ""
             businessTypeLabel.text = ""
             businessNumber.text = ""
             
         case .down:
             backViewHeightConstraint.constant = 202
-            businessNumberLabel.text = "Business number"
+            businessNumberLbl.text = "Business number"
             businessTypeLabel.text = businessType
             businessNumber.text = businessNum
         
@@ -244,4 +283,16 @@ class MissedCallVC: UIViewController {
             print("Animation completed")
         }
     }
+}
+
+extension UIView {
+
+  func roundCorners(_ corners: CACornerMask, radius: CGFloat) {
+      self.layer.maskedCorners = corners
+      self.layer.cornerRadius = radius
+      //self.layer.borderWidth = borderWidth
+      //self.layer.borderColor = borderColor.cgColor
+
+  }
+
 }

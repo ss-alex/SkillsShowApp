@@ -108,7 +108,7 @@ class Cell: UITableViewCell {
         numberLbl.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            numberLbl.topAnchor.constraint(equalTo: nameLbl.bottomAnchor, constant: 2),
+            numberLbl.topAnchor.constraint(equalTo: nameLbl.bottomAnchor, constant: 3),
             numberLbl.leftAnchor.constraint(equalTo: backView.leftAnchor, constant: 72),
             numberLbl.heightAnchor.constraint(equalToConstant: 22),
             numberLbl.widthAnchor.constraint(equalToConstant: 160)

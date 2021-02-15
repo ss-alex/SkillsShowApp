@@ -19,4 +19,8 @@ extension UIColor {
     class var thirtyThree: UIColor {
         return UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
     }
+    
+    class var ao: UIColor {
+        return UIColor(red: 160/255, green: 160/255, blue: 160/255, alpha: 1.0)
+    }
 }
